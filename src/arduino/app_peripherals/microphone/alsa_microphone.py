@@ -158,7 +158,6 @@ class ALSAMicrophone(BaseMicrophone):
                 )
             except Exception as e:
                 logger.warning(f"Requested params not supported on {self.device}: {e}")
-                
                 if not self.device.startswith("plughw"):
                     # Try fallback with plughw
                     plugdev = self.device.replace("hw", "plughw", 1) if self.device.startswith("hw") else f"plughw:{self.device}"
@@ -174,11 +173,11 @@ class ALSAMicrophone(BaseMicrophone):
                     self._pcm.setperiodsize(self.chunk_size)
                     self.device = plugdev
                     self._native_rate = self.sample_rate
-                    
+
                     logger.debug(f"PCM opened with plughw fallback: {plugdev}")
                 else:
                     logger.error(f"plughw fallback failed, using native device params for {self.device}")
-                    
+
                     self._pcm = alsaaudio.PCM(
                         type=alsaaudio.PCM_CAPTURE,
                         mode=alsaaudio.PCM_NORMAL,
@@ -190,14 +189,12 @@ class ALSAMicrophone(BaseMicrophone):
                     self._pcm.setperiodsize(self.chunk_size)
 
                     logger.debug("PCM opened with native params: %s, %dHz", self.device, self._native_rate)
-        
         except alsaaudio.ALSAAudioError as e:
             logger.error(f"ALSAAudioError opening PCM device {self.device}: {e}")
             if "Device or resource busy" in str(e):
                 raise MicrophoneOpenError(f"Microphone is busy. Close other audio applications and try again. ({self.device})")
             else:
                 raise MicrophoneOpenError(f"ALSA error opening microphone: {e}")
-        
         except Exception as e:
             logger.error(f"Unexpected error opening PCM device {self.device}: {e}")
             raise MicrophoneOpenError(f"Unexpected error opening microphone: {e}")
@@ -327,7 +324,6 @@ class ALSAMicrophone(BaseMicrophone):
         if self._mixer is None:
             logger.warning("No mixer available for volume control")
             return None
-        
         try:
             volume = self._mixer.getvolume()[0]
             return volume
@@ -347,10 +343,10 @@ class ALSAMicrophone(BaseMicrophone):
         if self._mixer is None:
             logger.warning("No mixer available for volume control")
             return
-        
+
         if not (0 <= volume <= 100):
             raise ValueError("Volume must be between 0 and 100.")
-        
+
         try:
             self._mixer.setvolume(volume)
         except alsaaudio.ALSAAudioError as e:
@@ -395,5 +391,4 @@ class ALSAMicrophone(BaseMicrophone):
                     logger.error(f"Error parsing card info for {card_name}: {e}")
         except Exception as e:
             logger.error(f"Error listing USB microphones: {e}")
-        
         return usb_devices
