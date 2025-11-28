@@ -17,8 +17,19 @@ This Brick acts as a gateway to powerful AI models hosted in the cloud. It is de
 ## Prerequisites
 
 - **Internet Connection**: The board must be connected to the internet to reach the LLM provider's API.
-- **API Key**: A valid API key for the chosen service (e.g., OpenAI API Key, Anthropic API Key).
-- **Python Dependencies**: The Brick relies on LangChain integration packages (`langchain-anthropic`, `langchain-openai`, `langchain-google-genai`).
+- **LLM Account**: An account with your chosen cloud-based LLM service (e.g., OpenAI, Anthropic, or Google).
+
+## Setup & API Keys
+
+Before using the Cloud LLM brick, you must provide it with a valid API Key. You do not need to hardcode this in your script; instead, use the **Brick Configuration** menu in Arduino App Lab.
+
+1.  **Get your API Key** from your preferred provider:
+    *   **Google Gemini:** [Get API Key](https://aistudio.google.com/app/apikey)
+    *   **OpenAI GPT:** [Get API Key](https://platform.openai.com/api-keys)
+    *   **Anthropic Claude:** [Get API Key](https://console.anthropic.com/settings/keys)
+
+2.  **Configure the Brick**:
+    In the configuration panel, enter your API Key into the corresponding field. This securely saves your credentials for the App to use.
 
 ## Code Example and Usage
 
@@ -26,7 +37,7 @@ This Brick acts as a gateway to powerful AI models hosted in the cloud. It is de
 
 This example initializes the Brick with an OpenAI model and performs a simple chat interaction. 
 
-**Note:** The API key is not hardcoded. It is retrieved automatically from the **Brick Configuration** in App Lab.
+**Note:** The API key is not hardcoded. It is retrieved automatically from the configuration you set in the previous step.
 
 ```python
 import os
